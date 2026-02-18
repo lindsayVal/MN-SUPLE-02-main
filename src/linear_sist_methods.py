@@ -38,11 +38,15 @@ def eliminacion_gaussiana(A: np.ndarray) -> np.ndarray:
     ``solucion``: vector con la solución del sistema de ecuaciones lineales.
 
     """
+    contador_suma=0
+    contador_resta=0
+    contador_division=0
     if not isinstance(A, np.ndarray):
         logging.debug("Convirtiendo A a numpy array.")
         A = np.array(A, dtype=float)
     assert A.shape[0] == A.shape[1] - 1, "La matriz A debe ser de tamaño n-by-(n+1)."
     n = A.shape[0]
+
 
     for i in range(0, n - 1):  # loop por columna
 
@@ -75,7 +79,10 @@ def eliminacion_gaussiana(A: np.ndarray) -> np.ndarray:
         # --- Eliminación: loop por fila
         for j in range(i + 1, n):
             m = A[j, i] / A[i, i]
+            contador_division + 1
             A[j, i:] = A[j, i:] - m * A[i, i:]
+            contador_resta + 1
+            print(contador_resta)
 
         logging.info(f"\n{A}")
 
@@ -86,13 +93,21 @@ def eliminacion_gaussiana(A: np.ndarray) -> np.ndarray:
     # --- Sustitución hacia atrás
     solucion = np.zeros(n)
     solucion[n - 1] = A[n - 1, n] / A[n - 1, n - 1]
+    contador_division + 1
+    print(contador_division)
 
+    
     for i in range(n - 2, -1, -1):
         suma = 0
         for j in range(i + 1, n):
             suma += A[i, j] * solucion[j]
+            contador_suma+1
         solucion[i] = (A[i, n] - suma) / A[i, i]
-
+        contador_resta+1
+        print(contador_division)
+        contador_division+1
+        print(contador_division)
+    
     return solucion
 
 
